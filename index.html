@@ -536,6 +536,7 @@
 
     .comment-avatar.praveen { background: var(--primary); }
     .comment-avatar.prashant { background: var(--credit); }
+    .comment-avatar.prateek { background: var(--warning); }
     .comment-avatar.other { background: var(--text-muted); }
 
     .comment-meta {
@@ -710,6 +711,7 @@
       <div class="modal-buttons">
         <button class="btn-primary" onclick="setReviewer('Praveen')">Praveen</button>
         <button class="btn-primary" style="background: var(--credit);" onclick="setReviewer('Prashant')">Prashant</button>
+        <button class="btn-primary" style="background: var(--warning);" onclick="setReviewer('Prateek')">Prateek</button>
       </div>
       <div class="modal-other">
         <input type="text" id="otherName" placeholder="Other name...">
@@ -1302,7 +1304,8 @@
 
     const REVIEWER_COLORS = {
       'Praveen': 'praveen',
-      'Prashant': 'prashant'
+      'Prashant': 'prashant',
+      'Prateek': 'prateek'
     };
 
     function getAvatarClass(name) {
