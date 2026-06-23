@@ -736,8 +736,10 @@
       <div class="version">v1 — 22 Jun 2026</div>
     </div>
     <nav class="sidebar-nav">
-      <div class="nav-group-title">Design</div>
-      <a class="nav-item active" data-section="design-system">Design System</a>
+      <div class="nav-group-title">Design System</div>
+      <a class="nav-item active" data-section="colors-in-action">Colors in Action</a>
+      <a class="nav-item" data-section="typography">Typography</a>
+      <a class="nav-item" data-section="components">Components & Layout</a>
 
       <div class="nav-group-title">Old vs New</div>
       <a class="nav-item" data-section="home-nav">Home & Navigation</a>
@@ -762,141 +764,308 @@
     </header>
 
     <div class="content">
-      <!-- Section: Design System -->
-      <div class="section active" id="design-system">
-        <h2 class="section-title">Design System</h2>
-<p class="section-summary">The visual language behind ThreadBooks — colors, typography, spacing, and components.</p>
+      <!-- Section: Colors in Action -->
+      <div class="section active" id="colors-in-action">
+        <h2 class="section-title">Colors in Action</h2>
+        <p class="section-summary">Every color in ThreadBooks has a job. Here's what each one does and where you'll see it.</p>
 
-<h3 class="subsection-title">Color Palette</h3>
-<div class="swatch-grid">
-  <div class="swatch">
-    <div class="swatch-color" style="background: #2563EB;"></div>
-    <div class="swatch-info"><div class="swatch-label">Primary</div><div class="swatch-hex">#2563EB</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #1D4ED8;"></div>
-    <div class="swatch-info"><div class="swatch-label">Primary Hover</div><div class="swatch-hex">#1D4ED8</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #0F172A;"></div>
-    <div class="swatch-info"><div class="swatch-label">Sidebar BG</div><div class="swatch-hex">#0F172A</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #F1F5F9;"></div>
-    <div class="swatch-info"><div class="swatch-label">Content BG</div><div class="swatch-hex">#F1F5F9</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #FFFFFF; border-bottom: 1px solid #E2E8F0;"></div>
-    <div class="swatch-info"><div class="swatch-label">Surface</div><div class="swatch-hex">#FFFFFF</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #0F172A;"></div>
-    <div class="swatch-info"><div class="swatch-label">Text Primary</div><div class="swatch-hex">#0F172A</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #475569;"></div>
-    <div class="swatch-info"><div class="swatch-label">Text Secondary</div><div class="swatch-hex">#475569</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #E2E8F0;"></div>
-    <div class="swatch-info"><div class="swatch-label">Border</div><div class="swatch-hex">#E2E8F0</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #DC2626;"></div>
-    <div class="swatch-info"><div class="swatch-label">Debit / Dr</div><div class="swatch-hex">#DC2626</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #16A34A;"></div>
-    <div class="swatch-info"><div class="swatch-label">Credit / Cr</div><div class="swatch-hex">#16A34A</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #D97706;"></div>
-    <div class="swatch-info"><div class="swatch-label">Warning</div><div class="swatch-hex">#D97706</div></div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background: #F8FAFC;"></div>
-    <div class="swatch-info"><div class="swatch-label">Row Hover</div><div class="swatch-hex">#F8FAFC</div></div>
-  </div>
-</div>
+        <!-- Annotated screenshot -->
+        <div class="comparison" style="margin-bottom: 24px;">
+          <div class="comparison-header">How colors work in the app</div>
+          <div style="padding: 20px;">
+            <img src="screenshots/party_list.png" alt="ThreadBooks party list showing color usage" style="width: 100%; border: 1px solid var(--border); border-radius: 4px; cursor: zoom-in;">
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 12px;">This is the Party Master screen. Notice how different colors guide your eye to different things — the dark sidebar for navigation, blue for actions, and the white workspace for content.</p>
+          </div>
+        </div>
 
-<h3 class="subsection-title">Typography</h3>
-<div class="type-sample">
-  <div class="type-meta">Source Sans 3 · 700 · Display/Headings</div>
-  <div style="font-family: 'Source Sans 3', sans-serif; font-weight: 700;">
-    <div style="font-size: 28px; margin-bottom: 4px;">Geetashree Sarees</div>
-    <div style="font-size: 20px; margin-bottom: 4px;">Party Master</div>
-    <div style="font-size: 16px;">Sales Billing — FY 2026-27</div>
-  </div>
-</div>
-<div class="type-sample">
-  <div class="type-meta">DM Sans · 400/500/600 · Body/Forms/UI</div>
-  <div style="font-family: 'DM Sans', sans-serif;">
-    <div style="font-size: 14px; font-weight: 400; margin-bottom: 4px;">Madhav Fabrics — C-21-22 Shri Shyam Market, Surat (Regular 400)</div>
-    <div style="font-size: 13px; font-weight: 500; margin-bottom: 4px;">Party Name · GST No · Bill Type · Transport (Medium 500)</div>
-    <div style="font-size: 12px; font-weight: 600;">SAVE · EDIT · DELETE · PRINT LABELS (SemiBold 600)</div>
-  </div>
-</div>
-<div class="type-sample">
-  <div class="type-meta">Geist Mono · 400/500 · Amounts/Data</div>
-  <div style="font-family: 'Geist Mono', monospace; text-align: right;">
-    <div style="font-size: 14px; font-weight: 500; margin-bottom: 4px;">₹1,23,456.00</div>
-    <div style="font-size: 13px; font-weight: 400; margin-bottom: 4px;">₹45,678.50 &nbsp; ₹9,87,654.00 &nbsp; ₹12,345.75</div>
-    <div style="font-size: 11px; font-weight: 400; color: #64748B;">GSTIN: 24AABCM1234F1Z5</div>
-  </div>
-</div>
+        <!-- Color explanations with mini mockups -->
+        <h3 class="subsection-title">Navigation & Structure</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">These colors create the app's frame — the sidebar, the content area, and the boundaries between sections.</p>
 
-<h3 class="subsection-title">Spacing & Density</h3>
-<div class="density-callout">Optimized for clerks entering 50+ bills/day — every pixel earns its place. Base unit: 4px.</div>
-<div class="spacing-visual">
-  <div class="spacing-block" style="width: 24px; height: 8px;"><span>2</span></div>
-  <div class="spacing-block" style="width: 24px; height: 16px;"><span>4</span></div>
-  <div class="spacing-block" style="width: 24px; height: 32px;"><span>8</span></div>
-  <div class="spacing-block" style="width: 24px; height: 48px;"><span>12</span></div>
-  <div class="spacing-block" style="width: 24px; height: 64px;"><span>16</span></div>
-  <div class="spacing-block" style="width: 24px; height: 96px;"><span>24</span></div>
-  <div class="spacing-block" style="width: 24px; height: 128px;"><span>32</span></div>
-  <div class="spacing-block" style="width: 24px; height: 192px;"><span>48</span></div>
-</div>
-<div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;">
-  Row height: 32px · Form fields: 32px · Buttons: 32px compact / 36px prominent · Nav items: 36px
-</div>
+        <div class="swatch-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #0F172A; display: flex; align-items: center; padding: 0 12px; height: 56px;">
+              <span style="color: #94A3B8; font-family: var(--font-body); font-size: 13px;">◆ Party Master</span>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-label">Sidebar</div>
+              <div class="swatch-hex">The dark left panel where you navigate between sections — always visible</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #F1F5F9; display: flex; align-items: center; justify-content: center; height: 56px;">
+              <span style="color: #475569; font-family: var(--font-body); font-size: 12px;">Page Background</span>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-label">Content Area</div>
+              <div class="swatch-hex">Light grey background behind everything — easy on the eyes for long hours</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #FFFFFF; border-bottom: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: center; height: 56px;">
+              <span style="color: #0F172A; font-family: var(--font-body); font-size: 12px;">Party Form</span>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-label">Cards & Forms</div>
+              <div class="swatch-hex">White surfaces for forms, tables, and cards — where you do the actual work</div>
+            </div>
+          </div>
+        </div>
 
-<h3 class="subsection-title">Components</h3>
-<div style="margin-bottom: 16px;">
-  <div style="font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 8px;">BUTTONS</div>
-  <div class="component-row">
-    <button class="btn-primary">Save (F3)</button>
-    <button class="btn-secondary">Cancel</button>
-    <button class="btn-ghost">Delete</button>
-  </div>
-</div>
-<div style="margin-bottom: 16px;">
-  <div style="font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 8px;">FORM INPUT</div>
-  <div class="component-row">
-    <input class="sample-input" type="text" placeholder="Party name..." value="Madhav Fabrics">
-    <input class="sample-input" type="text" placeholder="GSTIN..." value="24AABCM1234F1Z5" style="font-family: var(--font-mono); font-size: 12px;">
-  </div>
-</div>
-<div style="margin-bottom: 24px;">
-  <div style="font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 8px;">BADGES</div>
-  <div class="component-row">
-    <span class="badge-dr">Dr ₹45,678.00</span>
-    <span class="badge-cr">Cr ₹1,23,456.00</span>
-  </div>
-</div>
+        <h3 class="subsection-title">Actions & Buttons</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Blue is the action color. Whenever you see blue, it means "click me" or "this is active."</p>
 
-<!-- Comment area -->
-<div class="comments-area">
-  <div class="comments-list"></div>
-  <button class="add-comment-btn" onclick="toggleCommentForm('design-system')">+ Add Comment</button>
-  <div class="comment-form" style="display:none;">
-    <textarea placeholder="Share your feedback on the design system..."></textarea>
-    <div class="comment-form-actions">
-      <button class="btn-secondary" onclick="toggleCommentForm('design-system')">Cancel</button>
-      <button class="btn-primary" onclick="submitComment('design-system')">Submit</button>
-    </div>
-  </div>
-</div>
+        <div class="swatch-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #2563EB; display: flex; align-items: center; justify-content: center; height: 56px;">
+              <button style="background: white; color: #2563EB; border: none; padding: 4px 14px; border-radius: 3px; font-size: 12px; font-weight: 600; font-family: var(--font-body);">Save (F3)</button>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-label">Primary Action</div>
+              <div class="swatch-hex">Save buttons, active sidebar items, selected tabs — the main action color</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #EFF6FF; display: flex; align-items: center; justify-content: center; height: 56px; border-bottom: 2px solid #2563EB;">
+              <span style="color: #2563EB; font-family: var(--font-body); font-size: 12px; font-weight: 500;">✓ Currently selected</span>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-label">Focus & Selection</div>
+              <div class="swatch-hex">When you click into a field or select a row — a subtle blue glow shows what's active</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Money: Debit & Credit</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">The most important colors in an accounting app. Red = money owed (debit). Green = money received (credit). You'll see these everywhere — in badges, ledger entries, and outstanding balances.</p>
+
+        <div class="swatch-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #FEF2F2; display: flex; align-items: center; justify-content: center; height: 56px;">
+              <span class="badge-dr">Dr ₹45,678.00</span>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-label">Debit (Dr) — Red</div>
+              <div class="swatch-hex">Money owed to you or by you. Appears as red badges on party entries and ledger rows.</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #F0FDF4; display: flex; align-items: center; justify-content: center; height: 56px;">
+              <span class="badge-cr">Cr ₹1,23,456.00</span>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-label">Credit (Cr) — Green</div>
+              <div class="swatch-hex">Money received or paid. Appears as green badges. Same convention as Tally and Empire.</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #FFFBEB; display: flex; align-items: center; justify-content: center; height: 56px;">
+              <span style="background: #D97706; color: white; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 9999px;">Coming in Part 3</span>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-label">Warning — Amber</div>
+              <div class="swatch-hex">Attention needed — overdue payments, validation errors, or features not yet available.</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Text Hierarchy</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Not all text is equally important. Darker text = more important. Lighter text = supporting information.</p>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 20px; margin-bottom: 24px;">
+          <div style="color: #0F172A; font-size: 14px; font-weight: 500; margin-bottom: 8px;">Madhav Fabrics <span style="font-size: 11px; color: white; background: #2563EB; padding: 1px 6px; border-radius: 9999px;">Sundry Debtor</span></div>
+          <div style="color: #475569; font-size: 13px; margin-bottom: 4px;">C-21-22 Shri Shyam Market, Ishwar Nagar, Surat</div>
+          <div style="color: #64748B; font-size: 12px;">GSTIN: 24AABCM1234F1Z5 · TDS: 0.10%</div>
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #E2E8F0;">
+            <span style="font-size: 11px; color: #64748B;">↑ Dark text = party name (most important) · Medium grey = address · Light grey = tax details (reference info)</span>
+          </div>
+        </div>
+
+        <!-- Comment area -->
+        <div class="comments-area">
+          <div class="comments-list"></div>
+          <button class="add-comment-btn" onclick="toggleCommentForm('colors-in-action')">+ Add Comment</button>
+          <div class="comment-form" style="display:none;">
+            <textarea placeholder="Share your feedback on the color system..."></textarea>
+            <div class="comment-form-actions">
+              <button class="btn-secondary" onclick="toggleCommentForm('colors-in-action')">Cancel</button>
+              <button class="btn-primary" onclick="submitComment('colors-in-action')">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Typography -->
+      <div class="section" id="typography">
+        <h2 class="section-title">Typography</h2>
+        <p class="section-summary">Three fonts, each with a specific job. Here's how they look in real use.</p>
+
+        <h3 class="subsection-title">Page Titles & Section Headings</h3>
+        <div class="type-sample">
+          <div style="font-family: 'Source Sans 3', sans-serif; font-weight: 700;">
+            <div style="font-size: 20px; margin-bottom: 12px; color: var(--text-primary);">Party Master</div>
+            <div style="font-size: 16px; color: var(--text-primary);">Sales Billing — FY 2026-27</div>
+          </div>
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted);">
+            <strong>Source Sans 3 (Bold)</strong> — Used for page titles and section headings. Clean, authoritative, easy to read. This is what you see at the top of every page.
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Party Names, Labels & Buttons</h3>
+        <div class="type-sample">
+          <div style="font-family: 'DM Sans', sans-serif;">
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 14px; font-weight: 500; margin-bottom: 2px;">Madhav Fabrics</div>
+              <div style="font-size: 13px; color: var(--text-secondary);">C-21-22 Shri Shyam Market, Ishwar Nagar, Surat</div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 6px;">FORM LABELS</div>
+              <div style="display: flex; gap: 24px; font-size: 13px; font-weight: 500; color: var(--text-secondary);">
+                <span>Party Name</span><span>GST No.</span><span>Bill Type</span><span>Transport</span>
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 6px;">BUTTONS</div>
+              <div class="component-row">
+                <button class="btn-primary">Save (F3)</button>
+                <button class="btn-secondary">Cancel</button>
+                <button class="btn-ghost">Delete</button>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted);">
+            <strong>DM Sans (Regular/Medium/SemiBold)</strong> — The everyday workhorse font. Party names, addresses, form labels, buttons — everything you read and interact with uses this font. Chosen because it's very readable at small sizes, which matters when fitting 50+ rows on screen.
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Rupee Amounts & Tax Numbers</h3>
+        <div class="type-sample">
+          <div style="font-family: 'Geist Mono', monospace;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; padding: 6px 12px; background: var(--row-hover); border-radius: 3px;">
+              <span style="font-family: var(--font-body); font-size: 13px; color: var(--text-primary);">Madhav Fabrics</span>
+              <span style="font-size: 14px; font-weight: 500; color: var(--debit);">₹45,678.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; padding: 6px 12px;">
+              <span style="font-family: var(--font-body); font-size: 13px; color: var(--text-primary);">Tirupati Enterprises</span>
+              <span style="font-size: 14px; font-weight: 500; color: var(--credit);">₹1,23,456.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 6px 12px; background: var(--row-hover); border-radius: 3px;">
+              <span style="font-family: var(--font-body); font-size: 13px; color: var(--text-primary);">Manomay Tex</span>
+              <span style="font-size: 14px; font-weight: 500; color: var(--debit);">₹9,87,654.00</span>
+            </div>
+            <div style="margin-top: 12px; padding: 6px 12px;">
+              <span style="font-size: 12px; color: var(--text-muted);">GSTIN: 24AABCM1234F1Z5</span>
+            </div>
+          </div>
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted);">
+            <strong>Geist Mono (Monospace)</strong> — Only used for money and tax numbers. Every digit is the same width, so ₹45,678.00 and ₹1,23,456.00 line up perfectly in columns. Indian number formatting (1,23,456) is used throughout. Red = debit, green = credit.
+          </div>
+        </div>
+
+        <!-- Comment area -->
+        <div class="comments-area">
+          <div class="comments-list"></div>
+          <button class="add-comment-btn" onclick="toggleCommentForm('typography')">+ Add Comment</button>
+          <div class="comment-form" style="display:none;">
+            <textarea placeholder="Share your feedback on the typography choices..."></textarea>
+            <div class="comment-form-actions">
+              <button class="btn-secondary" onclick="toggleCommentForm('typography')">Cancel</button>
+              <button class="btn-primary" onclick="submitComment('typography')">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Components & Layout -->
+      <div class="section" id="components">
+        <h2 class="section-title">Components & Layout</h2>
+        <p class="section-summary">The building blocks of every screen — buttons, inputs, badges, and the compact layout designed for speed.</p>
+
+        <h3 class="subsection-title">Compact Density</h3>
+        <div class="density-callout">
+          <strong>Designed for speed, not beauty.</strong> Empire users enter 50+ bills per day. Every row is 32px tall — the same density as Empire. We're not building a consumer app with lots of whitespace. We're building a precision instrument.
+        </div>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 24px;">
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Sample Table Row (32px height)</div>
+          <table style="width: 100%; border-collapse: collapse; font-family: var(--font-body); font-size: 13px;">
+            <thead>
+              <tr style="height: 32px; background: var(--row-hover); border-bottom: 1px solid var(--border);">
+                <th style="text-align: left; padding: 0 12px; font-weight: 600; font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Party Name</th>
+                <th style="text-align: left; padding: 0 12px; font-weight: 600; font-size: 11px; color: var(--text-muted); text-transform: uppercase;">City</th>
+                <th style="text-align: left; padding: 0 12px; font-weight: 600; font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Type</th>
+                <th style="text-align: right; padding: 0 12px; font-weight: 600; font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Outstanding</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="height: 32px; border-bottom: 1px solid var(--border);">
+                <td style="padding: 0 12px; font-weight: 500;">Madhav Fabrics</td>
+                <td style="padding: 0 12px; color: var(--text-secondary);">Surat</td>
+                <td style="padding: 0 12px;"><span class="badge-dr" style="font-size: 11px; padding: 1px 6px;">Debtor</span></td>
+                <td style="padding: 0 12px; text-align: right; font-family: var(--font-mono); color: var(--debit);">₹45,678.00</td>
+              </tr>
+              <tr style="height: 32px; background: var(--row-hover); border-bottom: 1px solid var(--border);">
+                <td style="padding: 0 12px; font-weight: 500;">Tirupati Enterprises</td>
+                <td style="padding: 0 12px; color: var(--text-secondary);">Mumbai</td>
+                <td style="padding: 0 12px;"><span class="badge-cr" style="font-size: 11px; padding: 1px 6px;">Creditor</span></td>
+                <td style="padding: 0 12px; text-align: right; font-family: var(--font-mono); color: var(--credit);">₹1,23,456.00</td>
+              </tr>
+              <tr style="height: 32px;">
+                <td style="padding: 0 12px; font-weight: 500;">Manomay Tex</td>
+                <td style="padding: 0 12px; color: var(--text-secondary);">Surat</td>
+                <td style="padding: 0 12px;"><span class="badge-dr" style="font-size: 11px; padding: 1px 6px;">Debtor</span></td>
+                <td style="padding: 0 12px; text-align: right; font-family: var(--font-mono); color: var(--debit);">₹9,87,654.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="subsection-title">Form Fields</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Every input field is 32px tall — same as table rows. This keeps the form compact so clerks can see all fields at once without scrolling.</p>
+
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 20px; margin-bottom: 24px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 12px; font-weight: 500; color: var(--text-muted); display: block; margin-bottom: 4px;">Party Name</label>
+              <input class="sample-input" type="text" value="Madhav Fabrics" style="width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 500; color: var(--text-muted); display: block; margin-bottom: 4px;">GSTIN</label>
+              <input class="sample-input" type="text" value="24AABCM1234F1Z5" style="width: 100%; font-family: var(--font-mono); font-size: 12px;">
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 500; color: var(--text-muted); display: block; margin-bottom: 4px;">City</label>
+              <input class="sample-input" type="text" value="Surat" style="width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 500; color: var(--text-muted); display: block; margin-bottom: 4px;">TDS Rate</label>
+              <input class="sample-input" type="text" value="0.10%" style="width: 100%; font-family: var(--font-mono); font-size: 12px;">
+            </div>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Keyboard Shortcuts (F-Key Bar)</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Just like Empire, ThreadBooks uses F-keys for common actions. The dark bar at the bottom of every screen shows which shortcuts are available.</p>
+
+        <div style="background: #0F172A; border-radius: 4px; padding: 8px 16px; display: flex; gap: 24px; margin-bottom: 24px;">
+          <span style="color: #94A3B8; font-family: var(--font-mono); font-size: 12px;"><span style="color: #2563EB; font-weight: 600;">F3</span> Save</span>
+          <span style="color: #94A3B8; font-family: var(--font-mono); font-size: 12px;"><span style="color: #2563EB; font-weight: 600;">F4</span> Details</span>
+          <span style="color: #94A3B8; font-family: var(--font-mono); font-size: 12px;"><span style="color: #2563EB; font-weight: 600;">F5</span> Search</span>
+          <span style="color: #94A3B8; font-family: var(--font-mono); font-size: 12px;"><span style="color: #2563EB; font-weight: 600;">F8</span> Edit</span>
+        </div>
+
+        <!-- Comment area -->
+        <div class="comments-area">
+          <div class="comments-list"></div>
+          <button class="add-comment-btn" onclick="toggleCommentForm('components')">+ Add Comment</button>
+          <div class="comment-form" style="display:none;">
+            <textarea placeholder="Share your feedback on the components and layout..."></textarea>
+            <div class="comment-form-actions">
+              <button class="btn-secondary" onclick="toggleCommentForm('components')">Cancel</button>
+              <button class="btn-primary" onclick="submitComment('components')">Submit</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Section: Home & Navigation -->
