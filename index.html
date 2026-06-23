@@ -899,32 +899,325 @@
 
       <!-- Section: Home & Navigation -->
       <div class="section" id="home-nav">
-        <!-- Content populated in Task 5 -->
+        <h2 class="section-title">Home & Navigation</h2>
+<p class="section-summary">From toolbar menus and icon grids to an always-visible sidebar.</p>
+
+<div class="comparison">
+  <div class="comparison-header">Main Screen</div>
+  <div class="comparison-grid">
+    <div class="comparison-col">
+      <div class="comparison-col-label">Empire (Current)</div>
+      <img src="empire/home_page.png" alt="Empire home page">
+    </div>
+    <div class="comparison-col">
+      <div class="comparison-col-label">ThreadBooks (New)</div>
+      <img src="screenshots/dashboard.png" alt="ThreadBooks dashboard">
+    </div>
+  </div>
+  <div class="comparison-caption">
+    <ul>
+      <li>Sidebar replaces toolbar menus — all navigation visible at once, no hunting through dropdowns</li>
+      <li>Dashboard shows outstanding summary instead of numbered icon grid</li>
+      <li>Clean, modern look with the same professional density</li>
+    </ul>
+  </div>
+</div>
+
+<div class="comparison">
+  <div class="comparison-header">Menu System</div>
+  <div class="comparison-grid">
+    <div class="comparison-col">
+      <div class="comparison-col-label">Empire (Current)</div>
+      <img src="empire/home_masters_button.png" alt="Empire masters menu">
+      <img src="empire/home_billingsys_button.png" alt="Empire billing menu" style="margin-top: 8px;">
+      <img src="empire/home_genentries_button.png" alt="Empire gen entries menu" style="margin-top: 8px;">
+    </div>
+    <div class="comparison-col">
+      <div class="comparison-col-label">ThreadBooks (New)</div>
+      <img src="screenshots/dashboard.png" alt="ThreadBooks sidebar navigation">
+      <p style="margin-top: 12px; font-size: 13px; color: var(--text-secondary);">All menu items are visible in the sidebar at all times — no dropdowns needed. One click to reach any section.</p>
+    </div>
+  </div>
+  <div class="comparison-caption">
+    <ul>
+      <li>Empire uses 8 top-level menus with nested dropdowns — requires memorizing menu locations</li>
+      <li>ThreadBooks shows all sections in a single sidebar — Party Master, Billing, Payments, Ledger, Entries, Settings</li>
+    </ul>
+  </div>
+</div>
+
+<div class="comments-area">
+  <div class="comments-list"></div>
+  <button class="add-comment-btn" onclick="toggleCommentForm('home-nav')">+ Add Comment</button>
+  <div class="comment-form" style="display:none;">
+    <textarea placeholder="Share your feedback on home & navigation..."></textarea>
+    <div class="comment-form-actions">
+      <button class="btn-secondary" onclick="toggleCommentForm('home-nav')">Cancel</button>
+      <button class="btn-primary" onclick="submitComment('home-nav')">Submit</button>
+    </div>
+  </div>
+</div>
       </div>
 
       <!-- Section: Party Master -->
       <div class="section" id="party-master">
-        <!-- Content populated in Task 5 -->
+        <h2 class="section-title">Party Master</h2>
+<p class="section-summary">From a single dense form to a searchable list with dedicated form and detail views.</p>
+
+<div class="comparison">
+  <div class="comparison-header">Party List</div>
+  <div class="comparison-grid">
+    <div class="comparison-col">
+      <div class="comparison-col-label">Empire (Current)</div>
+      <img src="empire/acountmaster.png" alt="Empire account master">
+    </div>
+    <div class="comparison-col">
+      <div class="comparison-col-label">ThreadBooks (New)</div>
+      <img src="screenshots/party_list.png" alt="ThreadBooks party list">
+    </div>
+  </div>
+  <div class="comparison-caption">
+    <ul>
+      <li>Searchable party list with type badges (Sundry Debtor, Sundry Creditor)</li>
+      <li>Filterable by account group — no need to remember account codes</li>
+    </ul>
+  </div>
+</div>
+
+<div class="comparison">
+  <div class="comparison-header">Party Form</div>
+  <div class="comparison-grid">
+    <div class="comparison-col">
+      <div class="comparison-col-label">Empire (Current)</div>
+      <img src="empire/madhav_party.png" alt="Empire party form - Madhav Fabrics">
+      <img src="empire/divya_master.png" alt="Empire party form - Divya" style="margin-top: 8px;">
+    </div>
+    <div class="comparison-col">
+      <div class="comparison-col-label">ThreadBooks (New)</div>
+      <img src="screenshots/party_form.png" alt="ThreadBooks party form">
+    </div>
+  </div>
+  <div class="comparison-caption">
+    <ul>
+      <li>Same fields (name, GST, TDS, address, broker, transport) in a cleaner layout</li>
+      <li>Form validation with clear error messages</li>
+      <li>All Empire tabs (Main Details, Other Details) organized into logical sections</li>
+    </ul>
+  </div>
+</div>
+
+<div class="comparison">
+  <div class="comparison-header">Party Detail</div>
+  <div class="comparison-grid">
+    <div class="comparison-col">
+      <div class="comparison-col-label">Empire (Current)</div>
+      <img src="empire/maomay_party.png" alt="Empire party detail">
+      <img src="empire/partymaster_ledger_type.png" alt="Empire party ledger type" style="margin-top: 8px;">
+    </div>
+    <div class="comparison-col">
+      <div class="comparison-col-label">ThreadBooks (New)</div>
+      <img src="screenshots/party_detail.png" alt="ThreadBooks party detail">
+    </div>
+  </div>
+  <div class="comparison-caption">
+    <ul>
+      <li>Dedicated detail view shows all party information at a glance</li>
+      <li>Quick access to edit, view ledger, and outstanding balance</li>
+    </ul>
+  </div>
+</div>
+
+<div class="comments-area">
+  <div class="comments-list"></div>
+  <button class="add-comment-btn" onclick="toggleCommentForm('party-master')">+ Add Comment</button>
+  <div class="comment-form" style="display:none;">
+    <textarea placeholder="Share your feedback on party master..."></textarea>
+    <div class="comment-form-actions">
+      <button class="btn-secondary" onclick="toggleCommentForm('party-master')">Cancel</button>
+      <button class="btn-primary" onclick="submitComment('party-master')">Submit</button>
+    </div>
+  </div>
+</div>
       </div>
 
       <!-- Section: Sales Billing -->
       <div class="section" id="sales-billing">
-        <!-- Content populated in Task 5 -->
+        <h2 class="section-title">Sales Billing</h2>
+<p class="section-summary">The core billing workflow — Empire's most complex screen, coming next in ThreadBooks.</p>
+
+<div class="comparison">
+  <div class="comparison-header">Billing Home & Entry</div>
+  <div class="comparison-grid">
+    <div class="comparison-col">
+      <div class="comparison-col-label">Empire (Current)</div>
+      <img src="empire/sales_billing_home.png" alt="Empire sales billing home">
+      <img src="empire/sales_bill_filled_multi_line.png" alt="Empire sales bill with line items" style="margin-top: 8px;">
+    </div>
+    <div class="comparison-col">
+      <div class="comparison-col-label">ThreadBooks (New)</div>
+      <span class="placeholder-badge">Coming in Part 3</span>
+      <img src="screenshots/sales_billing_placeholder.png" alt="ThreadBooks sales billing placeholder">
+      <p style="margin-top: 12px; font-size: 13px; color: var(--text-secondary);">Sales billing is the next major feature. The Empire layout pattern (header + line items + bottom tabs + F-key bar) will be preserved with modern styling.</p>
+    </div>
+  </div>
+</div>
+
+<div class="comparison">
+  <div class="comparison-header">Bottom Tabs (GST, LR Details)</div>
+  <div class="comparison-grid">
+    <div class="comparison-col">
+      <div class="comparison-col-label">Empire (Current)</div>
+      <img src="empire/sales_bill_filled_gst_tds.png" alt="Empire GST/TDS tab">
+      <img src="empire/sales_bill_filled_lr_details.png" alt="Empire LR details tab" style="margin-top: 8px;">
+    </div>
+    <div class="comparison-col">
+      <div class="comparison-col-label">ThreadBooks (New)</div>
+      <span class="placeholder-badge">Coming in Part 3</span>
+      <p style="font-size: 13px; color: var(--text-secondary);">Bottom tab panels for Misc, LR/Transport, Add/Less, and GST/TDS will follow the same progressive disclosure pattern.</p>
+    </div>
+  </div>
+  <div class="comparison-caption">
+    <ul>
+      <li>Empire's bottom tabs keep secondary fields accessible without cluttering the main form</li>
+      <li>ThreadBooks will preserve this exact pattern — users won't need to relearn the workflow</li>
+    </ul>
+  </div>
+</div>
+
+<div class="comments-area">
+  <div class="comments-list"></div>
+  <button class="add-comment-btn" onclick="toggleCommentForm('sales-billing')">+ Add Comment</button>
+  <div class="comment-form" style="display:none;">
+    <textarea placeholder="Share your feedback on sales billing..."></textarea>
+    <div class="comment-form-actions">
+      <button class="btn-secondary" onclick="toggleCommentForm('sales-billing')">Cancel</button>
+      <button class="btn-primary" onclick="submitComment('sales-billing')">Submit</button>
+    </div>
+  </div>
+</div>
       </div>
 
       <!-- Section: Receipts & Payments -->
       <div class="section" id="receipts-payments">
-        <!-- Content populated in Task 5 -->
+        <h2 class="section-title">Receipts & Payments</h2>
+<p class="section-summary">Bill-wise receipt and payment tracking with auto-adjustment.</p>
+
+<div class="comparison">
+  <div class="comparison-header">Payment Entry</div>
+  <div class="comparison-grid">
+    <div class="comparison-col">
+      <div class="comparison-col-label">Empire (Current)</div>
+      <img src="empire/billwise_receipt_payment_form.png" alt="Empire payment form">
+      <img src="empire/billwise_receipt_payment_with_data.png" alt="Empire payment with data" style="margin-top: 8px;">
+    </div>
+    <div class="comparison-col">
+      <div class="comparison-col-label">ThreadBooks (New)</div>
+      <span class="placeholder-badge">Coming in Part 4</span>
+      <img src="screenshots/receipts_payments_placeholder.png" alt="ThreadBooks receipts placeholder">
+      <p style="margin-top: 12px; font-size: 13px; color: var(--text-secondary);">Bill-wise payment matching and auto-adjustment will be built in Part 4, following the Empire workflow.</p>
+    </div>
+  </div>
+  <div class="comparison-caption">
+    <ul>
+      <li>Empire's bill-wise matching links each payment to specific invoices</li>
+      <li>Auto-adjust generates credit/debit notes automatically — this workflow will be preserved</li>
+    </ul>
+  </div>
+</div>
+
+<div class="comments-area">
+  <div class="comments-list"></div>
+  <button class="add-comment-btn" onclick="toggleCommentForm('receipts-payments')">+ Add Comment</button>
+  <div class="comment-form" style="display:none;">
+    <textarea placeholder="Share your feedback on receipts & payments..."></textarea>
+    <div class="comment-form-actions">
+      <button class="btn-secondary" onclick="toggleCommentForm('receipts-payments')">Cancel</button>
+      <button class="btn-primary" onclick="submitComment('receipts-payments')">Submit</button>
+    </div>
+  </div>
+</div>
       </div>
 
       <!-- Section: General Entries -->
       <div class="section" id="general-entries">
-        <!-- Content populated in Task 5 -->
+        <h2 class="section-title">General Entries</h2>
+<p class="section-summary">Journal entries, expenses, and general receipts/payments.</p>
+
+<div class="comparison">
+  <div class="comparison-header">Entry Types</div>
+  <div class="comparison-grid">
+    <div class="comparison-col">
+      <div class="comparison-col-label">Empire (Current)</div>
+      <img src="empire/journal_entry.png" alt="Empire journal entry">
+      <img src="empire/expenses_single_entry.png" alt="Empire expense entry" style="margin-top: 8px;">
+      <img src="empire/general_receipt_payment.png" alt="Empire general receipt" style="margin-top: 8px;">
+    </div>
+    <div class="comparison-col">
+      <div class="comparison-col-label">ThreadBooks (New)</div>
+      <span class="placeholder-badge">Coming in Part 4</span>
+      <img src="screenshots/general_entries_placeholder.png" alt="ThreadBooks entries placeholder">
+      <p style="margin-top: 12px; font-size: 13px; color: var(--text-secondary);">Journal entries, expense vouchers, and general receipt/payment entry — all planned for Part 4.</p>
+    </div>
+  </div>
+  <div class="comparison-caption">
+    <ul>
+      <li>Empire supports journal entries with TDS, recurring expenses, and multi-journal entries</li>
+      <li>ThreadBooks will support the same entry types with cleaner form layouts and validation</li>
+    </ul>
+  </div>
+</div>
+
+<div class="comments-area">
+  <div class="comments-list"></div>
+  <button class="add-comment-btn" onclick="toggleCommentForm('general-entries')">+ Add Comment</button>
+  <div class="comment-form" style="display:none;">
+    <textarea placeholder="Share your feedback on general entries..."></textarea>
+    <div class="comment-form-actions">
+      <button class="btn-secondary" onclick="toggleCommentForm('general-entries')">Cancel</button>
+      <button class="btn-primary" onclick="submitComment('general-entries')">Submit</button>
+    </div>
+  </div>
+</div>
       </div>
 
       <!-- Section: Migration Wizard -->
       <div class="section" id="migration-wizard">
-        <!-- Content populated in Task 5 -->
+        <h2 class="section-title">Migration Wizard</h2>
+<p class="section-summary">New feature — automatically imports data from Empire's Access/SQL Server databases.</p>
+
+<div class="comparison">
+  <div class="comparison-header">Data Import Flow</div>
+  <div class="comparison-grid">
+    <div class="comparison-col">
+      <div class="comparison-col-label">Empire (Current)</div>
+      <span class="new-feature-badge">New Feature — No Empire Equivalent</span>
+      <p style="font-size: 13px; color: var(--text-secondary); margin-top: 12px;">Empire data lives in Access (.mdb) and SQL Server databases. Moving between computers or to a new system requires manual database export/import — a process most clerks can't do without IT support.</p>
+    </div>
+    <div class="comparison-col">
+      <div class="comparison-col-label">ThreadBooks (New)</div>
+      <img src="screenshots/migration_step1.png" alt="ThreadBooks migration wizard step 1">
+    </div>
+  </div>
+  <div class="comparison-caption">
+    <ul>
+      <li>Step-by-step wizard guides users through importing their Empire data</li>
+      <li>Automatic field mapping — party names, GST numbers, balances, all carried over</li>
+      <li>Runs on first launch, so existing Empire users can switch with zero data loss</li>
+    </ul>
+  </div>
+</div>
+
+<div class="comments-area">
+  <div class="comments-list"></div>
+  <button class="add-comment-btn" onclick="toggleCommentForm('migration-wizard')">+ Add Comment</button>
+  <div class="comment-form" style="display:none;">
+    <textarea placeholder="Share your feedback on the migration wizard..."></textarea>
+    <div class="comment-form-actions">
+      <button class="btn-secondary" onclick="toggleCommentForm('migration-wizard')">Cancel</button>
+      <button class="btn-primary" onclick="submitComment('migration-wizard')">Submit</button>
+    </div>
+  </div>
+</div>
       </div>
     </div>
   </div>
