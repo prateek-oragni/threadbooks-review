@@ -549,61 +549,96 @@
       font-weight: 500;
     }
 
-    .comment-form {
-      margin-top: 12px;
+    /* === Inline Comment System === */
+    .commentable {
+      position: relative;
     }
 
-    .comment-form textarea {
+    .comment-trigger {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      color: white;
+      border: 2px solid white;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .commentable:hover .comment-trigger,
+    .comment-trigger.has-comments {
+      opacity: 1;
+    }
+
+    .comment-trigger.has-comments {
+      background: var(--credit);
+    }
+
+    .comment-trigger:hover {
+      transform: scale(1.1);
+    }
+
+    .inline-comment-panel {
+      display: none;
+      background: white;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 6px 6px 0;
+      padding: 12px 16px;
+      margin-top: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .inline-comment-panel.open {
+      display: block;
+    }
+
+    .inline-comment-panel textarea {
       width: 100%;
       border: 1px solid var(--border);
       border-radius: 4px;
-      padding: 10px;
+      padding: 8px 10px;
       font-size: 13px;
       font-family: var(--font-body);
       resize: vertical;
-      min-height: 60px;
+      min-height: 50px;
+      margin-top: 8px;
     }
 
-    .comment-form textarea:focus {
+    .inline-comment-panel textarea:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
 
-    .comment-form-actions {
+    .inline-comment-actions {
       display: flex;
       justify-content: flex-end;
       gap: 8px;
       margin-top: 8px;
     }
 
-    .add-comment-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 20px;
-      font-size: 13px;
-      font-weight: 500;
-      font-family: var(--font-body);
-      cursor: pointer;
-      width: 100%;
-      text-align: center;
+    .inline-comments-list .comment {
+      border-bottom: 1px solid var(--border);
+      padding: 8px 0;
     }
 
-    .add-comment-btn:hover {
-      background: var(--primary-hover);
+    .inline-comments-list .comment:last-child {
+      border-bottom: none;
     }
 
     .comments-area {
-      padding: 16px 20px;
-      border-top: 2px solid var(--primary);
-      background: #EFF6FF;
-      border-radius: 0 0 6px 6px;
-    }
-
-    .comparison .comments-area {
-      border-top: 2px solid var(--primary);
+      display: none;
     }
 
     /* === Reviewer Modal === */
@@ -1486,33 +1521,55 @@
         });
       });
 
-      injectCommentButtons();
+      injectInlineComments();
     });
 
-    function injectCommentButtons() {
-      document.querySelectorAll('.comparison').forEach(card => {
-        if (card.querySelector('.comments-area')) return;
-        const header = card.querySelector('.comparison-header');
-        const label = header ? header.textContent.trim() : 'this section';
-        const section = card.closest('.section');
-        const sectionId = section ? section.id : 'unknown';
-        const commentId = sectionId + '--card-' + (commentCounter++);
-        card.setAttribute('data-comment-id', commentId);
+    function injectInlineComments() {
+      const targets = document.querySelectorAll(
+        '.comparison-col img, .comparison-header, .comparison-caption, ' +
+        '.subsection-title, .swatch-grid, .type-sample, .density-callout, ' +
+        '.comparison-grid, [style*="background: var(--surface)"], ' +
+        'table, .component-row'
+      );
 
-        const area = document.createElement('div');
-        area.className = 'comments-area';
-        area.innerHTML = `
-          <div class="comments-list"></div>
-          <button class="add-comment-btn" onclick="toggleCommentForm('${commentId}')">+ Comment on "${label}"</button>
-          <div class="comment-form" style="display:none;" data-comment-id="${commentId}">
-            <textarea placeholder="Share your feedback on ${label}..."></textarea>
-            <div class="comment-form-actions">
-              <button class="btn-secondary" onclick="toggleCommentForm('${commentId}')">Cancel</button>
-              <button class="btn-primary" onclick="submitComment('${commentId}')">Submit</button>
-            </div>
+      targets.forEach(el => {
+        if (el.closest('.inline-comment-panel') || el.closest('.modal') || el.closest('.lightbox')) return;
+        if (el.classList.contains('commentable')) return;
+
+        const id = 'c-' + (commentCounter++);
+        el.classList.add('commentable');
+        el.setAttribute('data-comment-id', id);
+
+        const section = el.closest('.section');
+        const sectionId = section ? section.id : 'unknown';
+        let label = '';
+        if (el.tagName === 'IMG') label = el.alt || 'this image';
+        else if (el.classList.contains('comparison-header')) label = el.textContent.trim();
+        else if (el.classList.contains('subsection-title')) label = el.textContent.trim();
+        else label = el.textContent.trim().substring(0, 40);
+
+        const trigger = document.createElement('button');
+        trigger.className = 'comment-trigger';
+        trigger.innerHTML = '💬';
+        trigger.title = 'Comment on this';
+        trigger.onclick = function(e) {
+          e.stopPropagation();
+          toggleInlinePanel(id);
+        };
+        el.appendChild(trigger);
+
+        const panel = document.createElement('div');
+        panel.className = 'inline-comment-panel';
+        panel.id = 'panel-' + id;
+        panel.innerHTML = `
+          <div class="inline-comments-list"></div>
+          <textarea placeholder="Your feedback on: ${label.substring(0, 60)}..."></textarea>
+          <div class="inline-comment-actions">
+            <button class="btn-secondary" onclick="toggleInlinePanel('${id}')">Cancel</button>
+            <button class="btn-primary" onclick="submitInlineComment('${id}', '${sectionId}', '${label.replace(/'/g, "\\'")}')">Submit</button>
           </div>
         `;
-        card.appendChild(area);
+        el.insertAdjacentElement('afterend', panel);
       });
     }
 
@@ -1633,52 +1690,36 @@
         </div>`;
     }
 
-    function findCommentArea(commentId) {
-      return document.querySelector(`#${commentId} .comment-form`) ||
-             document.querySelector(`[data-comment-id="${commentId}"] .comment-form`);
+    function toggleInlinePanel(id) {
+      const panel = document.getElementById('panel-' + id);
+      if (!panel) return;
+      const wasOpen = panel.classList.contains('open');
+      document.querySelectorAll('.inline-comment-panel.open').forEach(p => p.classList.remove('open'));
+      if (!wasOpen) panel.classList.add('open');
     }
 
-    function findCommentsList(commentId) {
-      return document.querySelector(`#${commentId} .comments-list`) ||
-             document.querySelector(`[data-comment-id="${commentId}"] .comments-list`);
-    }
-
-    function toggleCommentForm(commentId) {
-      const form = findCommentArea(commentId);
-      if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function getCommentLabel(commentId) {
-      const navItem = document.querySelector(`.nav-item[data-section="${commentId}"]`);
-      if (navItem) return navItem.textContent;
-      const card = document.querySelector(`[data-comment-id="${commentId}"]`);
-      if (card) {
-        const header = card.querySelector('.comparison-header');
-        const section = card.closest('.section');
-        const sectionNav = section ? document.querySelector(`.nav-item[data-section="${section.id}"]`) : null;
-        const prefix = sectionNav ? sectionNav.textContent + ' → ' : '';
-        return prefix + (header ? header.textContent.trim() : commentId);
-      }
-      return commentId;
-    }
-
-    async function submitComment(commentId) {
-      const form = findCommentArea(commentId);
-      const textarea = form ? form.querySelector('textarea') : null;
-      if (!textarea) return;
+    async function submitInlineComment(id, sectionId, label) {
+      const panel = document.getElementById('panel-' + id);
+      if (!panel) return;
+      const textarea = panel.querySelector('textarea');
       const text = textarea.value.trim();
       if (!text) return;
 
       const now = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-      const label = getCommentLabel(commentId);
 
-      const container = findCommentsList(commentId);
-      if (container) container.insertAdjacentHTML('beforeend', renderComment(currentReviewer, now, text));
+      const list = panel.querySelector('.inline-comments-list');
+      list.insertAdjacentHTML('beforeend', renderComment(currentReviewer, now, text));
       textarea.value = '';
-      toggleCommentForm(commentId);
+
+      const trigger = document.querySelector(`[data-comment-id="${id}"] .comment-trigger`);
+      if (trigger) trigger.classList.add('has-comments');
+
       updateCommentBadges();
 
       if (!GITHUB_CONFIG.token) return;
+
+      const navItem = document.querySelector(`.nav-item[data-section="${sectionId}"]`);
+      const sectionName = navItem ? navItem.textContent.trim() : sectionId;
 
       try {
         await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/issues`, {
@@ -1688,15 +1729,19 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            title: `[Design Review] ${label}`,
+            title: `[Design Review] ${sectionName} → ${label}`,
             labels: [GITHUB_CONFIG.label],
-            body: `**Reviewer:** ${currentReviewer}\n**Section:** ${commentId}\n**Date:** ${now}\n\n${text}`
+            body: `**Reviewer:** ${currentReviewer}\n**Section:** ${sectionName}\n**Element:** ${label}\n**Date:** ${now}\n\n${text}`
           })
         });
       } catch (e) {
         console.error('Failed to submit comment to GitHub:', e);
       }
     }
+
+    // Legacy toggleCommentForm for any remaining old-style comment areas
+    function toggleCommentForm(sectionId) {}
+    function submitComment(sectionId) {}
 
     function updateCommentBadges() {
       document.querySelectorAll('.nav-item').forEach(item => {
