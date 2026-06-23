@@ -1565,10 +1565,12 @@
           <div class="inline-comments-list"></div>
           <textarea placeholder="Your feedback on: ${label.substring(0, 60)}..."></textarea>
           <div class="inline-comment-actions">
-            <button class="btn-secondary" onclick="toggleInlinePanel('${id}')">Cancel</button>
-            <button class="btn-primary" onclick="submitInlineComment('${id}', '${sectionId}', '${label.replace(/'/g, "\\'")}')">Submit</button>
+            <button class="btn-secondary" data-action="cancel">Cancel</button>
+            <button class="btn-primary" data-action="submit">Submit</button>
           </div>
         `;
+        panel.querySelector('[data-action="cancel"]').addEventListener('click', () => toggleInlinePanel(id));
+        panel.querySelector('[data-action="submit"]').addEventListener('click', () => submitInlineComment(id, sectionId, label));
         el.insertAdjacentElement('afterend', panel);
       });
     }
