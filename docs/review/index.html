@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThreadBooks — Design Review</title>
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=source-sans-3:700|dm-sans:400,500,600|geist-mono:400,500" rel="stylesheet">
+  <style>
+    /* === Reset === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* === Variables (from DESIGN.md) === */
+    :root {
+      --primary: #2563EB;
+      --primary-hover: #1D4ED8;
+      --sidebar-bg: #0F172A;
+      --sidebar-text: #94A3B8;
+      --sidebar-active-text: #FFFFFF;
+      --sidebar-active-bg: #1E293B;
+      --content-bg: #F1F5F9;
+      --surface: #FFFFFF;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #64748B;
+      --border: #E2E8F0;
+      --border-strong: #CBD5E1;
+      --row-hover: #F8FAFC;
+      --debit: #DC2626;
+      --credit: #16A34A;
+      --warning: #D97706;
+      --font-display: 'Source Sans 3', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'Geist Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      background: var(--content-bg);
+      line-height: 1.5;
+    }
+
+    /* === Sidebar === */
+    .sidebar {
+      width: 260px;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      background: var(--sidebar-bg);
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease-out;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-header h1 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--sidebar-active-text);
+      margin-bottom: 4px;
+    }
+
+    .sidebar-header .subtitle {
+      font-size: 12px;
+      color: var(--sidebar-text);
+    }
+
+    .sidebar-header .version {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-family: var(--font-mono);
+    }
+
+    .sidebar-nav {
+      padding: 12px 0;
+      flex: 1;
+    }
+
+    .nav-group-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 16px 20px 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      font-size: 13px;
+      color: var(--sidebar-text);
+      cursor: pointer;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: background 0.1s, color 0.1s;
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.04);
+      color: var(--sidebar-active-text);
+    }
+
+    .nav-item.active {
+      background: var(--sidebar-active-bg);
+      color: var(--sidebar-active-text);
+      border-left-color: var(--primary);
+    }
+
+    .nav-item .badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 9999px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .reviewer-bar {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      color: var(--sidebar-text);
+    }
+
+    .reviewer-bar strong { color: var(--sidebar-active-text); }
+
+    .reviewer-bar a {
+      color: var(--primary);
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 11px;
+    }
+
+    /* === Main === */
+    .main {
+      margin-left: 260px;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header h2 {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .header .meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .content {
+      padding: 24px 32px 80px;
+      max-width: 1100px;
+    }
+
+    /* === Sections === */
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .section-summary {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    /* === Comparison Layout === */
+    .comparison {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .comparison-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .comparison-col {
+      padding: 16px;
+    }
+
+    .comparison-col:first-child {
+      border-right: 1px solid var(--border);
+    }
+
+    .comparison-col-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .comparison-col img {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: zoom-in;
+      transition: opacity 0.15s;
+    }
+
+    .comparison-col img:hover { opacity: 0.9; }
+
+    .comparison-caption {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--row-hover);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .comparison-caption ul {
+      list-style: disc;
+      padding-left: 20px;
+    }
+
+    .comparison-caption li { margin-bottom: 4px; }
+
+    .placeholder-badge {
+      display: inline-block;
+      background: var(--warning);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      margin-bottom: 12px;
+    }
+
+    .new-feature-badge {
+      display: inline-block;
+      background: var(--credit);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      margin-bottom: 12px;
+    }
+
+    /* === Design System Section === */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .swatch {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .swatch-color {
+      height: 48px;
+      width: 100%;
+    }
+
+    .swatch-info {
+      padding: 8px 10px;
+    }
+
+    .swatch-label {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .swatch-hex {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .type-sample {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+
+    .type-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-bottom: 8px;
+    }
+
+    .spacing-visual {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .spacing-block {
+      background: var(--primary);
+      opacity: 0.7;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .spacing-block span {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .component-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 3px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      font-weight: 500;
+      cursor: pointer;
+      height: 32px;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--text-primary);
+      border: 1px solid var(--border-strong);
+      padding: 6px 16px;
+      border-radius: 3px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      font-weight: 500;
+      cursor: pointer;
+      height: 32px;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      padding: 6px 16px;
+      border-radius: 3px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      font-weight: 500;
+      cursor: pointer;
+      height: 32px;
+    }
+
+    .sample-input {
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0 10px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      background: white;
+      width: 200px;
+    }
+
+    .sample-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .badge-dr {
+      display: inline-block;
+      background: #FEF2F2;
+      color: var(--debit);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+
+    .badge-cr {
+      display: inline-block;
+      background: #F0FDF4;
+      color: var(--credit);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+
+    .subsection-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      margin: 28px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .subsection-title:first-child { margin-top: 0; }
+
+    .density-callout {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    /* === Lightbox === */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 92vh;
+      border-radius: 6px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    /* === Comments === */
+    .comments-area {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .comment {
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .comment:last-child { border-bottom: none; }
+
+    .comment-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .comment-avatar.praveen { background: var(--primary); }
+    .comment-avatar.prashant { background: var(--credit); }
+    .comment-avatar.other { background: var(--text-muted); }
+
+    .comment-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .comment-meta strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .comment-form {
+      margin-top: 12px;
+    }
+
+    .comment-form textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .comment-form textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .comment-form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .add-comment-btn {
+      background: none;
+      border: 1px dashed var(--border-strong);
+      border-radius: 4px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      color: var(--text-muted);
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+    }
+
+    .add-comment-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* === Reviewer Modal === */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 300;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border-radius: 6px;
+      padding: 32px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .modal h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .modal p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .modal-buttons button {
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .modal-other {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .modal-other input {
+      flex: 1;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0 10px;
+      font-size: 13px;
+      font-family: var(--font-body);
+    }
+
+    /* === Mobile === */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+      }
+      .sidebar.open { transform: translateX(0); }
+
+      .main { margin-left: 0; }
+
+      .hamburger { display: block; }
+
+      .header { padding: 12px 16px; }
+
+      .content { padding: 16px; }
+
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-col:first-child {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .swatch-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      }
+    }
+
+    .backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 90;
+    }
+
+    .backdrop.open { display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- Reviewer Modal -->
+  <div class="modal-overlay" id="reviewerModal">
+    <div class="modal">
+      <h3>Who's reviewing?</h3>
+      <p>Your name will appear on any comments you leave.</p>
+      <div class="modal-buttons">
+        <button class="btn-primary" onclick="setReviewer('Praveen')">Praveen</button>
+        <button class="btn-primary" style="background: var(--credit);" onclick="setReviewer('Prashant')">Prashant</button>
+      </div>
+      <div class="modal-other">
+        <input type="text" id="otherName" placeholder="Other name...">
+        <button class="btn-secondary" onclick="setReviewer(document.getElementById('otherName').value)">Go</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt="Zoomed screenshot">
+  </div>
+
+  <!-- Mobile backdrop -->
+  <div class="backdrop" id="backdrop" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1>ThreadBooks</h1>
+      <div class="subtitle">Design Review</div>
+      <div class="version">v1 — 22 Jun 2026</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group-title">Design</div>
+      <a class="nav-item active" data-section="design-system">Design System</a>
+
+      <div class="nav-group-title">Old vs New</div>
+      <a class="nav-item" data-section="home-nav">Home & Navigation</a>
+      <a class="nav-item" data-section="party-master">Party Master</a>
+      <a class="nav-item" data-section="sales-billing">Sales Billing</a>
+      <a class="nav-item" data-section="receipts-payments">Receipts & Payments</a>
+      <a class="nav-item" data-section="general-entries">General Entries</a>
+      <a class="nav-item" data-section="migration-wizard">Migration Wizard</a>
+    </nav>
+    <div class="reviewer-bar" id="reviewerBar">
+      Reviewing as: <strong id="reviewerName">—</strong><br>
+      <a onclick="showReviewerModal()">Change</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <header class="header">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <h2>ThreadBooks — Design Review</h2>
+      <span class="meta">v1 — 22 Jun 2026</span>
+    </header>
+
+    <div class="content">
+      <!-- Section: Design System -->
+      <div class="section active" id="design-system">
+        <!-- Content populated in Task 4 -->
+      </div>
+
+      <!-- Section: Home & Navigation -->
+      <div class="section" id="home-nav">
+        <!-- Content populated in Task 5 -->
+      </div>
+
+      <!-- Section: Party Master -->
+      <div class="section" id="party-master">
+        <!-- Content populated in Task 5 -->
+      </div>
+
+      <!-- Section: Sales Billing -->
+      <div class="section" id="sales-billing">
+        <!-- Content populated in Task 5 -->
+      </div>
+
+      <!-- Section: Receipts & Payments -->
+      <div class="section" id="receipts-payments">
+        <!-- Content populated in Task 5 -->
+      </div>
+
+      <!-- Section: General Entries -->
+      <div class="section" id="general-entries">
+        <!-- Content populated in Task 5 -->
+      </div>
+
+      <!-- Section: Migration Wizard -->
+      <div class="section" id="migration-wizard">
+        <!-- Content populated in Task 5 -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === State ===
+    let currentReviewer = localStorage.getItem('reviewer') || '';
+    let currentSection = 'design-system';
+
+    // === Init ===
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!currentReviewer) {
+        showReviewerModal();
+      } else {
+        document.getElementById('reviewerName').textContent = currentReviewer;
+      }
+
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+          navigateTo(item.dataset.section);
+        });
+      });
+    });
+
+    // === Navigation ===
+    function navigateTo(sectionId) {
+      currentSection = sectionId;
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelector(`.nav-item[data-section="${sectionId}"]`).classList.add('active');
+
+      // Close mobile sidebar
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('backdrop').classList.remove('open');
+
+      window.scrollTo(0, 0);
+    }
+
+    // === Sidebar Mobile Toggle ===
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('backdrop').classList.toggle('open');
+    }
+
+    // === Reviewer Modal ===
+    function showReviewerModal() {
+      document.getElementById('reviewerModal').classList.add('open');
+    }
+
+    function setReviewer(name) {
+      if (!name || !name.trim()) return;
+      currentReviewer = name.trim();
+      localStorage.setItem('reviewer', currentReviewer);
+      document.getElementById('reviewerName').textContent = currentReviewer;
+      document.getElementById('reviewerModal').classList.remove('open');
+    }
+
+    // === Lightbox ===
+    function openLightbox(src) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // === Comments ===
+    // GitHub Issues API config — replace GITHUB_PAT before deploying
+    const GITHUB_CONFIG = {
+      owner: 'prathore',  // TODO: replace with actual GitHub org/user
+      repo: 'ThreadBooks',
+      token: 'REPLACE_WITH_PAT',
+      label: 'design-review'
+    };
+
+    const REVIEWER_COLORS = {
+      'Praveen': 'praveen',
+      'Prashant': 'prashant'
+    };
+
+    function getAvatarClass(name) {
+      return REVIEWER_COLORS[name] || 'other';
+    }
+
+    function getInitial(name) {
+      return name.charAt(0).toUpperCase();
+    }
+
+    async function loadComments() {
+      if (GITHUB_CONFIG.token === 'REPLACE_WITH_PAT') return;
+      try {
+        const resp = await fetch(
+          `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/issues?labels=${GITHUB_CONFIG.label}&state=open&per_page=100`,
+          { headers: { 'Authorization': `token ${GITHUB_CONFIG.token}` } }
+        );
+        if (!resp.ok) return;
+        const issues = await resp.json();
+
+        issues.forEach(issue => {
+          const body = issue.body || '';
+          const reviewerMatch = body.match(/\*\*Reviewer:\*\*\s*(.+)/);
+          const sectionMatch = body.match(/\*\*Section:\*\*\s*(.+)/);
+          const dateMatch = body.match(/\*\*Date:\*\*\s*(.+)/);
+          const commentText = body.split('\n\n').slice(1).join('\n\n');
+
+          if (sectionMatch) {
+            const sectionId = sectionMatch[1].trim();
+            const container = document.querySelector(`#${sectionId} .comments-list`);
+            if (container) {
+              const reviewer = reviewerMatch ? reviewerMatch[1].trim() : 'Unknown';
+              const date = dateMatch ? dateMatch[1].trim() : '';
+              container.insertAdjacentHTML('beforeend', renderComment(reviewer, date, commentText));
+            }
+          }
+        });
+
+        updateCommentBadges();
+      } catch (e) {
+        console.error('Failed to load comments:', e);
+      }
+    }
+
+    function renderComment(reviewer, date, text) {
+      return `
+        <div class="comment">
+          <div class="comment-avatar ${getAvatarClass(reviewer)}">${getInitial(reviewer)}</div>
+          <div>
+            <div class="comment-meta"><strong>${reviewer}</strong> · ${date}</div>
+            <div>${text}</div>
+          </div>
+        </div>`;
+    }
+
+    function toggleCommentForm(sectionId) {
+      const form = document.querySelector(`#${sectionId} .comment-form`);
+      if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function submitComment(sectionId) {
+      const textarea = document.querySelector(`#${sectionId} .comment-form textarea`);
+      const text = textarea.value.trim();
+      if (!text) return;
+
+      const now = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+      const sectionTitle = document.querySelector(`.nav-item[data-section="${sectionId}"]`).textContent;
+
+      // Render locally immediately
+      const container = document.querySelector(`#${sectionId} .comments-list`);
+      container.insertAdjacentHTML('beforeend', renderComment(currentReviewer, now, text));
+      textarea.value = '';
+      toggleCommentForm(sectionId);
+      updateCommentBadges();
+
+      // Submit to GitHub Issues
+      if (GITHUB_CONFIG.token === 'REPLACE_WITH_PAT') {
+        console.log('GitHub PAT not set — comment saved locally only');
+        return;
+      }
+
+      try {
+        await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/issues`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${GITHUB_CONFIG.token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: `[Design Review] ${sectionTitle}`,
+            labels: [GITHUB_CONFIG.label],
+            body: `**Reviewer:** ${currentReviewer}\n**Section:** ${sectionId}\n**Date:** ${now}\n\n${text}`
+          })
+        });
+      } catch (e) {
+        console.error('Failed to submit comment to GitHub:', e);
+      }
+    }
+
+    function updateCommentBadges() {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        const sectionId = item.dataset.section;
+        const comments = document.querySelectorAll(`#${sectionId} .comment`);
+        const existingBadge = item.querySelector('.badge');
+        if (comments.length > 0) {
+          if (existingBadge) {
+            existingBadge.textContent = comments.length;
+          } else {
+            item.insertAdjacentHTML('beforeend', `<span class="badge">${comments.length}</span>`);
+          }
+        } else if (existingBadge) {
+          existingBadge.remove();
+        }
+      });
+    }
+
+    // Load comments on page load
+    loadComments();
+
+    // Make images zoomable
+    document.addEventListener('click', (e) => {
+      if (e.target.tagName === 'IMG' && e.target.closest('.comparison-col')) {
+        openLightbox(e.target.src);
+      }
+    });
+  </script>
+</body>
+</html>
