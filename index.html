@@ -578,21 +578,32 @@
     }
 
     .add-comment-btn {
-      background: none;
-      border: 1px dashed var(--border-strong);
+      background: var(--primary);
+      color: white;
+      border: none;
       border-radius: 4px;
-      padding: 8px 16px;
+      padding: 10px 20px;
       font-size: 13px;
+      font-weight: 500;
       font-family: var(--font-body);
-      color: var(--text-muted);
       cursor: pointer;
       width: 100%;
       text-align: center;
     }
 
     .add-comment-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
+      background: var(--primary-hover);
+    }
+
+    .comments-area {
+      padding: 16px 20px;
+      border-top: 2px solid var(--primary);
+      background: #EFF6FF;
+      border-radius: 0 0 6px 6px;
+    }
+
+    .comparison .comments-area {
+      border-top: 2px solid var(--primary);
     }
 
     /* === Reviewer Modal === */
@@ -1458,7 +1469,8 @@
   <script>
     // === State ===
     let currentReviewer = localStorage.getItem('reviewer') || '';
-    let currentSection = 'design-system';
+    let currentSection = 'colors-in-action';
+    let commentCounter = 0;
 
     // === Init ===
     document.addEventListener('DOMContentLoaded', () => {
@@ -1473,7 +1485,36 @@
           navigateTo(item.dataset.section);
         });
       });
+
+      injectCommentButtons();
     });
+
+    function injectCommentButtons() {
+      document.querySelectorAll('.comparison').forEach(card => {
+        if (card.querySelector('.comments-area')) return;
+        const header = card.querySelector('.comparison-header');
+        const label = header ? header.textContent.trim() : 'this section';
+        const section = card.closest('.section');
+        const sectionId = section ? section.id : 'unknown';
+        const commentId = sectionId + '--card-' + (commentCounter++);
+        card.setAttribute('data-comment-id', commentId);
+
+        const area = document.createElement('div');
+        area.className = 'comments-area';
+        area.innerHTML = `
+          <div class="comments-list"></div>
+          <button class="add-comment-btn" onclick="toggleCommentForm('${commentId}')">+ Comment on "${label}"</button>
+          <div class="comment-form" style="display:none;" data-comment-id="${commentId}">
+            <textarea placeholder="Share your feedback on ${label}..."></textarea>
+            <div class="comment-form-actions">
+              <button class="btn-secondary" onclick="toggleCommentForm('${commentId}')">Cancel</button>
+              <button class="btn-primary" onclick="submitComment('${commentId}')">Submit</button>
+            </div>
+          </div>
+        `;
+        card.appendChild(area);
+      });
+    }
 
     // === Navigation ===
     function navigateTo(sectionId) {
@@ -1592,31 +1633,52 @@
         </div>`;
     }
 
-    function toggleCommentForm(sectionId) {
-      const form = document.querySelector(`#${sectionId} .comment-form`);
+    function findCommentArea(commentId) {
+      return document.querySelector(`#${commentId} .comment-form`) ||
+             document.querySelector(`[data-comment-id="${commentId}"] .comment-form`);
+    }
+
+    function findCommentsList(commentId) {
+      return document.querySelector(`#${commentId} .comments-list`) ||
+             document.querySelector(`[data-comment-id="${commentId}"] .comments-list`);
+    }
+
+    function toggleCommentForm(commentId) {
+      const form = findCommentArea(commentId);
       if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
     }
 
-    async function submitComment(sectionId) {
-      const textarea = document.querySelector(`#${sectionId} .comment-form textarea`);
+    function getCommentLabel(commentId) {
+      const navItem = document.querySelector(`.nav-item[data-section="${commentId}"]`);
+      if (navItem) return navItem.textContent;
+      const card = document.querySelector(`[data-comment-id="${commentId}"]`);
+      if (card) {
+        const header = card.querySelector('.comparison-header');
+        const section = card.closest('.section');
+        const sectionNav = section ? document.querySelector(`.nav-item[data-section="${section.id}"]`) : null;
+        const prefix = sectionNav ? sectionNav.textContent + ' → ' : '';
+        return prefix + (header ? header.textContent.trim() : commentId);
+      }
+      return commentId;
+    }
+
+    async function submitComment(commentId) {
+      const form = findCommentArea(commentId);
+      const textarea = form ? form.querySelector('textarea') : null;
+      if (!textarea) return;
       const text = textarea.value.trim();
       if (!text) return;
 
       const now = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-      const sectionTitle = document.querySelector(`.nav-item[data-section="${sectionId}"]`).textContent;
+      const label = getCommentLabel(commentId);
 
-      // Render locally immediately
-      const container = document.querySelector(`#${sectionId} .comments-list`);
-      container.insertAdjacentHTML('beforeend', renderComment(currentReviewer, now, text));
+      const container = findCommentsList(commentId);
+      if (container) container.insertAdjacentHTML('beforeend', renderComment(currentReviewer, now, text));
       textarea.value = '';
-      toggleCommentForm(sectionId);
+      toggleCommentForm(commentId);
       updateCommentBadges();
 
-      // Submit to GitHub Issues
-      if (GITHUB_CONFIG.token === 'REPLACE_WITH_PAT') {
-        console.log('GitHub PAT not set — comment saved locally only');
-        return;
-      }
+      if (!GITHUB_CONFIG.token) return;
 
       try {
         await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/issues`, {
@@ -1626,9 +1688,9 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            title: `[Design Review] ${sectionTitle}`,
+            title: `[Design Review] ${label}`,
             labels: [GITHUB_CONFIG.label],
-            body: `**Reviewer:** ${currentReviewer}\n**Section:** ${sectionId}\n**Date:** ${now}\n\n${text}`
+            body: `**Reviewer:** ${currentReviewer}\n**Section:** ${commentId}\n**Date:** ${now}\n\n${text}`
           })
         });
       } catch (e) {
