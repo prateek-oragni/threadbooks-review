@@ -1699,6 +1699,11 @@
     }
 
     async function submitInlineComment(id, sectionId, label) {
+      if (!currentReviewer) {
+        showReviewerModal();
+        return;
+      }
+
       const panel = document.getElementById('panel-' + id);
       if (!panel) return;
       const textarea = panel.querySelector('textarea');
@@ -1710,6 +1715,7 @@
       const list = panel.querySelector('.inline-comments-list');
       list.insertAdjacentHTML('beforeend', renderComment(currentReviewer, now, text));
       textarea.value = '';
+      panel.classList.remove('open');
 
       const trigger = document.querySelector(`[data-comment-id="${id}"] .comment-trigger`);
       if (trigger) trigger.classList.add('has-comments');
